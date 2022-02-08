@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/checkAlgorithm/microfront/issues"
   },
-  "homepage": "https://github.com/checkAlgorithm/microfront#readme"
+  "homepage": "https://github.com/checkAlgorithm/microfront#readme",
+  "dependencies": {}
 }
