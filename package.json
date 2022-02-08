@@ -1,0 +1,22 @@
+{
+  "name": "microfront",
+  "version": "1.0.0",
+  "description": "`cd server && sh start.sh`",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/checkAlgorithm/microfront.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/checkAlgorithm/microfront/issues"
+  },
+  "homepage": "https://github.com/checkAlgorithm/microfront#readme"
+}
