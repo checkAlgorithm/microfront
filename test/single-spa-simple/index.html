@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="#/a">a项目</a>
+    <a href="#/b">b项目</a>
+  </body>
+  <script type="module">
+    import { registerApplication, start } from "./src/app.js";
+
+    const data = { user: "cjf", age: 12 };
+
+    // app1 loadAPP
+    const app1 = {
+      bootstrap: [
+        async () => {
+          console.log("app1 bootstrap1");
+          return "app1 bootstrap1";
+        },
+        async () => {
+          console.log("app1 bootstrap2");
+          return "app1 bootstrap2";
+        },
+      ],
+      mount: async () => {
+        console.log("app1 mount");
+        return "app1 mount";
+      },
+      unmount: async () => {
+        console.log("app1 unmount");
+        return "app1 unmount";
+      },
+    };
+    // app2 loadAPP
+    const app2 = {
+      bootstrap: async () => {
+        console.log("app2 bootstrap");
+        return "app2 bootstrap1";
+      },
+      mount: async () => {
+        console.log("app2 mount");
+        return "app2 mount";
+      },
+      unmount: async () => {
+        console.log("app2 unmount");
+        return "app2 unmount";
+      },
+    };
+    // 注册app
+    registerApplication(
+      "app1",
+      async () => {
+        return app1;
+      },
+      (location) => location.href.includes("#/a"),
+      data
+    );
+    registerApplication(
+      "app2",
+      async () => {
+        return app2;
+      },
+      (location) => location.href.includes("#/b"),
+      data
+    );
+    // 启动app
+    start();
+  </script>
+</html>
