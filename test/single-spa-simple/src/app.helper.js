@@ -1,4 +1,3 @@
-import { flattenFnArray } from "./tools.js";
 
 export const NOT_LOADED = "NOT_LOADED"; // 未加载
 export const LOAD_ERROR = "LOAD_ERROR"; // 加载失败
@@ -55,12 +54,12 @@ export const toLoadPromise = async function (app) {
     return app;
   }
   app.status = LOADING_SOURCE_CODE;
-  let { bootstrap, mount, unmount } = await app.loadApp(app.customProps);
+  let { bootstrap, mount, unmount } = await app.loadApp();
   app.bootstrap = flattenFnArray(bootstrap);
   app.mount = flattenFnArray(mount);
   app.unmount = flattenFnArray(unmount);
   return Promise.resolve().then(async () => {
-    app.status = NOT_BOOTSTRAPPED; // 加载成功，等待开始
+    app.status = NOT_BOOTSTRAPPED; // 加载成功，等待开始；只改变状态，未执行函数
     return app;
   });
 };
@@ -110,3 +109,18 @@ export const toUnloadPromise = async function (app) {
   delete app.unmount;
   app.status = NOT_LOADED;
 };
+
+
+
+
+// 扁平化顺序执行fns
+export const flattenFnArray = (fns) => {
+  fns = Array.isArray(fns) ? fns : [fns];
+  return async function (props) {
+    return fns.reduce(
+      (preFn, fn) => preFn.then((res) => fn(props, res)),
+      Promise.resolve()
+    );
+  };
+};
+

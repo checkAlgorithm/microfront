@@ -11,64 +11,66 @@
     <a href="#/b">b项目</a>
   </body>
   <script type="module">
-    import { registerApplication, start } from "./src/app.js";
+    import { registerApplication, start } from './src/app.js'
 
-    const data = { user: "cjf", age: 12 };
+    const data = { user: 'cjf', age: 12 }
 
     // app1 loadAPP
     const app1 = {
       bootstrap: [
         async () => {
-          console.log("app1 bootstrap1");
-          return "app1 bootstrap1";
+          console.log('app1 bootstrap1')
+          return 'app1 bootstrap1'
         },
         async () => {
-          console.log("app1 bootstrap2");
-          return "app1 bootstrap2";
+          console.log('app1 bootstrap2')
+          return 'app1 bootstrap2'
         },
       ],
       mount: async () => {
-        console.log("app1 mount");
-        return "app1 mount";
+        console.log('app1 mount')
+        console.log('=======================')
+        return 'app1 mount'
       },
       unmount: async () => {
-        console.log("app1 unmount");
-        return "app1 unmount";
+        console.log('app1 unmount')
+        return 'app1 unmount'
       },
-    };
+    }
     // app2 loadAPP
     const app2 = {
       bootstrap: async () => {
-        console.log("app2 bootstrap");
-        return "app2 bootstrap1";
+        console.log('app2 bootstrap')
+        return 'app2 bootstrap1'
       },
       mount: async () => {
-        console.log("app2 mount");
-        return "app2 mount";
+        console.log('app2 mount')
+        console.log('=======================')
+        return 'app2 mount'
       },
       unmount: async () => {
-        console.log("app2 unmount");
-        return "app2 unmount";
+        console.log('app2 unmount')
+        return 'app2 unmount'
       },
-    };
+    }
     // 注册app
     registerApplication(
-      "app1",
+      'app1',
       async () => {
-        return app1;
+        return app1
       },
-      (location) => location.href.includes("#/a"),
+      (location) => location.href.includes('#/a'),
       data
-    );
+    )
     registerApplication(
-      "app2",
+      'app2',
       async () => {
-        return app2;
+        return app2
       },
-      (location) => location.href.includes("#/b"),
+      (location) => location.href.includes('#/b'),
       data
-    );
+    )
     // 启动app
-    start();
+    start()
   </script>
 </html>
