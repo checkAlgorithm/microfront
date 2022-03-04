@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <a href="#/a">a项目</a>
+    <a href="#/b">b项目</a>
+  </body>
+  <script type="module">
+    import { registerMicroApps, start } from './src/index.js'
+    registerMicroApps([
+      {
+        name: 'vue2.1App',
+        entry: '//localhost:3001',
+        container: '#container',
+        activeRule: '/vue2.1',
+      },
+    ])
+    // 启动app
+    start()
+  </script>
+</html>
