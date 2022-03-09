@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/checkAlgorithm/microfront#readme",
   "dependencies": {
+    "@vue/babel-preset-app": "^4.5.15",
+    "@vue/cli-plugin-babel": "~4.5.14",
+    "babel-loader": "^8.2.3",
     "rollup": "^2.69.0"
   }
 }

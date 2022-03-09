@@ -1,24 +1,24 @@
-import "../public-path";
+import "./public-path";
 import Vue from "vue";
 import App from "./App.vue";
-import router from "./router";
+import routes from "./router";
 import store from "./store";
 import VueCookie from "vue-cookie";
+import VueRouter from "vue-router";
 
 Vue.config.productionTip = false;
 Vue.use(VueCookie);
-
-// new Vue({
-//   router,
-//   store,
-//   render: (h) => h(App),
-// }).$mount("#app");
+Vue.use(VueRouter)
 
 let instance = null;
+let router = null
 function render(props = {}) {
   const { container } = props;
-  console.log(window.__POWERED_BY_QIANKUN__, router);
-
+  router = new VueRouter({
+    base: window.__POWERED_BY_QIANKUN__ ? "/vue2.1" : "/",
+    mode: "hash",
+    routes,
+  });
   instance = new Vue({
     router,
     store,
@@ -32,15 +32,18 @@ if (!window.__POWERED_BY_QIANKUN__) {
 }
 
 export async function bootstrap() {
-  console.log("[vue] vue app bootstraped");
+  console.log("[vue 2.1] vue app bootstraped");
 }
 export async function mount(props) {
-  console.log("[vue] props from main framework", props);
+  console.log("[vue 2.1] props from main framework");
   render(props);
 }
 export async function unmount() {
-  instance.$destroy();
-  instance.$el.innerHTML = "";
-  instance = null;
+  console.log('[vue 2.1] unmount')
+  if(instance) {
+    instance.$destroy();
+    instance.$el.innerHTML = "";
+    instance = null;
+  }
   router = null;
 }

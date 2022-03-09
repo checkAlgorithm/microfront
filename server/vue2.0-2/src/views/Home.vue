@@ -1,5 +1,7 @@
 <template>
   <div class="home">
+    <img src="../assets/logo.png" />
+
     <h1>This is an home page</h1>
     <button @click="getCookieInfo">Default button</button>
   </div>

@@ -5,7 +5,7 @@ module.exports = {
     port: 3001,
     host: "localhost",
     https: false,
-    open: true,
+    open: false,
     headers: {
       "Access-Control-Allow-Origin": "*",
     },
@@ -14,6 +14,7 @@ module.exports = {
     // }
   },
   configureWebpack: {
+    mode: 'development',
     output: {
       library: `${packageName}-[name]`,
       libraryTarget: "umd", // 把微应用打包成 umd 库格式

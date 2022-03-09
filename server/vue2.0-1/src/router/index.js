@@ -1,9 +1,5 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
-
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -20,10 +16,6 @@ const routes = [
     component: About,
   },
 ];
-const router = new VueRouter({
-  base: window.__POWERED_BY_QIANKUN__ ? "/vue2.1/" : "/",
-  mode: "hash",
-  routes,
-});
 
-export default router;
+
+export default routes;

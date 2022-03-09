@@ -1,4 +1,5 @@
-import { handleRouter } from './handle-router.js'
+// import { handleRouter } from './handle-router.js'
+import { handleRouter } from './handle-router'
 
 var preRoute = ''
 var nextRoute = ''
