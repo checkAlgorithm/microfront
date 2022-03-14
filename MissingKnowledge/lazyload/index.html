@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>延迟加载静态资源</title>
+  </head>
+  <body></body>
+  <script type="text/javascript">
+    //方案1
+    // function loadLazy(url) {
+    //   return Promise.resolve().then(() => {
+    //     var scriptDom = document.createElement('script')
+    //     scriptDom.setAttribute('type', 'text/javascript')
+    //     scriptDom.setAttribute('src', url)
+    //     document.body.append(scriptDom)
+    //   })
+    // }
+    // loadLazy('http://localhost:8081/js/chunk-vendors.js')
+    // 方案2
+    async function getResource(url) {
+      return await fetch(url, { mode: 'no-cors' })
+    }
+    setTimeout(async () => {
+      var js = await getResource('http://localhost:8081/js/chunk-vendors.js')
+      eval(js)
+    }, 2000)
+
+  </script>
+</html>

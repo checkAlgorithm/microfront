@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>单例沙箱</title>
+  </head>
+  <body></body>
+  <script type="text/javascript">
+    function LegacySandbox() {
+      this.addedPropsMapInSandbox = {}
+      this.modifyPropsOriginValueMapInSandbox = {}
+      this.currentUpdatedPropsValueMap = {} // add + modify调整的信息
+      this.sandboxRunning = true
+      var fakeWindow = Object.create(null)
+      const proxy = new Proxy(fakeWindow, {
+        set: (target, props, value) => {
+          if (this.sandboxRunning) {
+            if (!window.hasOwnProperty(props)) {
+              this.addedPropsMapInSandbox[props] = value
+            } else {
+              this.modifyPropsOriginValueMapInSandbox[props] = value
+            }
+            this.currentUpdatedPropsValueMap[props] = value
+
+            window[props] = value
+          }
+
+          return true
+        },
+        get: (target, props) => {
+          return window[props]
+        },
+      })
+      this.proxy = proxy
+    }
+    LegacySandbox.prototype.active = function () {
+      if (!this.sandboxRunning) {
+        // 还原上次修改
+        for (let props in this.currentUpdatedPropsValueMap) {
+          window[props] = this.currentUpdatedPropsValueMap[props]
+        }
+      }
+      this.sandboxRunning = true
+    }
+    LegacySandbox.prototype.inactive = function () {
+      if (this.sandboxRunning) {
+        // 删除的去除
+        for (let props in this.addedPropsMapInSandbox) {
+          delete window[props]
+        }
+        // 更新的还原
+        for (let props in this.modifyPropsOriginValueMapInSandbox) {
+          window[props] = this.modifyPropsOriginValueMapInSandbox[props]
+        }
+      }
+      this.sandboxRunning = false
+    }
+    const LegacyBox2 = new LegacySandbox()
+    const LegacyBox = new LegacySandbox()
+    ;(function (window) {
+      window.a = 123
+      LegacyBox.inactive()
+      console.log(window.a) // undefined
+      LegacyBox.active()
+      console.log(window.a) // 123
+    })(LegacyBox.proxy)
+    // ;(function (window) {
+    //   window.a = 333
+    //   LegacyBox2.inactive()
+    //   console.log(window.a) // undefined
+    //   LegacyBox2.active()
+    //   console.log(window.a) // 123
+    // })(LegacyBox2.proxy)
+  </script>
+</html>

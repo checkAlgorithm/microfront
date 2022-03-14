@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>快照沙箱</title>
+  </head>
+  <body></body>
+</html>
+
+<script type="text/javascript">
+  function SnapShotBox() {
+    this.proxy = window
+    this.modifyPropMap = {}
+    this.windowSnapshot = {}
+  }
+  SnapShotBox.prototype.active = function () {
+    let { modifyPropMap } = this
+    for (var w in window) {
+      if (window.hasOwnProperty(w)) {
+        this.windowSnapshot[w] = window[w]
+      }
+    }
+    for (let m in modifyPropMap) {
+      window[m] = modifyPropMap[m]
+    }
+  }
+  SnapShotBox.prototype.inActive = function () {
+    for (var w in window) {
+      if (window.hasOwnProperty(w)) {
+        if (this.windowSnapshot[w] !== window[w]) {
+          // 记录变更
+          this.modifyPropMap[w] = window[w]
+          // 还原变更
+          window[w] = this.windowSnapshot[w]
+        }
+      }
+    }
+  }
+  var sandBox = new SnapShotBox()
+
+  ;(function (window) {
+    //   window.a = 123
+    //   window.user = { name: 'cjf' }
+
+    sandBox.active() // 激活沙箱
+    window.a = 4
+    window.user = { name: 'cjf', age: 18 }
+    console.log('active change', window.user, window.a)
+
+    sandBox.inActive() // 卸载沙箱
+    console.log('inactive ', window.user, window.a)
+
+    sandBox.active()// 激活沙箱
+    console.log('reactive', window.user, window.a)
+  })(sandBox.proxy)
+</script>

@@ -21,26 +21,16 @@ const microFn = () => {
 
     const registerList = ['vue2.1', 'vue2.2', 'vue3.0', 'react']
     // 注册app
-    registerList.forEach((item) => {
+    registerList.forEach((name) => {
         registerApplication(
-            item, // appName // 应用名，防止重复加载
-            async () => setConfig(item), // loadApp // 加载异步函数(bootstrap, mount, unmount)
-            (location) => location.href.includes('/' + item), // activeWhen // 激活应用的条件，参数location
-            { user: item, age: 12 }  // 父应用传入的common data
+            name, // appName // 应用名，防止重复加载
+            async () => setConfig(name), // loadApp // 加载异步函数(bootstrap, mount, unmount)
+            (location) => location.href.includes('/' + name), // activeWhen // 激活应用的条件，参数location
+            { user: name, age: 12 }  // 父应用传入的common data
         )
     })
 
-    start()
-
-    // registerApplication(
-    //     'vue2.1',
-    //     async () => {
-    //         return setConfig('vue2.1')
-    //     },
-    //     (location) => location.href.includes('/vue2.1'),
-    //     data
-    // )
-    // 启动app
+    start() // 启动app
 }
 
 export default microFn

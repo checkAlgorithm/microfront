@@ -1,4 +1,5 @@
-import { registerMicroApps, start } from "./lib/qiankun/index"
+import { registerMicroApps, start } from "qiankun"
+// import { registerMicroApps, start } from "./lib/qiankun/index"
 
 const microFn = () => {
     registerMicroApps([
@@ -28,7 +29,11 @@ const microFn = () => {
         },
     ])
 
-    start()
+    start({
+        sandbox: {
+            experimentalStyleIsolation: true
+        }
+    })
 }
 
 

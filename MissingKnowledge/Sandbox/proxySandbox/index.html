@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>多例沙箱</title>
+  </head>
+  <body></body>
+  <script type="text/javascript">
+    function ProxySandbox() {
+      var fakeWindow = Object.create(null)
+      this.sandboxRunning = true
+      const proxy = new Proxy(fakeWindow, {
+        get: (target, props) => {
+          return props in target && this.sandboxRunning
+            ? target[props]
+            : window[props]
+        },
+        set: (target, props, value) => {
+          if (this.sandboxRunning) {
+            target[props] = value
+          }
+          return true
+        },
+      })
+      this.proxy = proxy
+    }
+    ProxySandbox.prototype.active = function () {
+      this.sandboxRunning = true
+    }
+    ProxySandbox.prototype.inactive = function () {
+      this.sandboxRunning = false
+    }
+
+    var Proxybox1 = new ProxySandbox()
+    var Proxybox2 = new ProxySandbox()
+    ;(function (window) {
+      Proxybox1.active()
+
+      window.a = 1111
+      Proxybox1.inactive()
+      console.log(window.a)
+      Proxybox1.active()
+      console.log(window.a)
+    })(Proxybox1.proxy)
+    ;(function (window) {
+      console.log('=========')
+      Proxybox2.active()
+      window.a = 2222
+      Proxybox2.inactive()
+      console.log(window.a)
+      Proxybox2.active()
+      console.log(window.a)
+    })(Proxybox2.proxy)
+  </script>
+</html>

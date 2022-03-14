@@ -1,5 +1,5 @@
-import { handleRouter } from './handle-router'
-import { rewriteRouter } from './rewrite-router'
+import { handleRouter } from './handle-router.js'
+import { rewriteRouter } from './rewrite-router.js'
 var _apps = []
 export const getApps = () => _apps
 // 注册应用

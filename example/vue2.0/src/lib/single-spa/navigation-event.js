@@ -13,8 +13,8 @@ function urlReroute() {
 }
 
 // 劫持路由变化
-window.addEventListener(routingEventsListeningTo[0], urlReroute);
-window.addEventListener(routingEventsListeningTo[1], urlReroute);
+window.addEventListener('hashchange', urlReroute);
+window.addEventListener('popstate', urlReroute);
 
 const originalAddEventListener = window.addEventListener
 const originalRemoveEventListener = window.removeEventListener
@@ -45,8 +45,8 @@ window.removeEventListener = function (eventName, listenerFn) {
 }
 
 function patchedUpdateState(updateState, methodName) {
-    console.log('patchedUpdateState methodName:', methodName)
     return function () {
+        console.log('methodName:', methodName)
         const urlBefore = window.location.href;
         const result = updateState.apply(this, arguments); // 调用原有pushState,replaceState方法
         const urlAfter = window.location.href;
